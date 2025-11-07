@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: my_help_code
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      DATABASE_URL: "mysql://user:password@mysql_container:3306/myhelpcode?serverVersion=8.0"
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: myhelpcode
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d  # Auto-import du fichier SQL (optionnel)
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin_container
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: database
+      PMA_USER: user
+      PMA_PASSWORD: password
+      UPLOAD_LIMIT: 64M
+    depends_on:
+      - database
+
+volumes:
+  db_data:
