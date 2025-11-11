@@ -15,6 +15,13 @@ services:
     depends_on:
       - database
 
+  node:
+    image: node:20
+    container_name: node_container
+    working_dir: /app
+    volumes:
+      - ./:/app
+
   database:
     image: mysql:8
     container_name: mysql_container
@@ -27,7 +34,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./sql:/docker-entrypoint-initdb.d  # Auto-import du fichier SQL (optionnel)
+      - ./sql:/docker-entrypoint-initdb.d
       - db_data:/var/lib/mysql
 
   phpmyadmin:

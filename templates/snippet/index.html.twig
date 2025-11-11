@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snippet index{% endblock %}
+
+{% block body %}
+    <h1>Snippet index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Syntax</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for snippet in snippets %}
+            <tr>
+                <td>{{ snippet.id }}</td>
+                <td>{{ snippet.title }}</td>
+                <td>{{ snippet.syntax }}</td>
+                <td>
+                    <a href="{{ path('app_snippet_show', {'id': snippet.id}) }}">show</a>
+                    <a href="{{ path('app_snippet_edit', {'id': snippet.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_snippet_new') }}">Create new</a>
+{% endblock %}
