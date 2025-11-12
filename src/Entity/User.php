@@ -35,6 +35,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+    
+    #[ORM\Column]
+    private bool $admin = false;
 
     public function getId(): ?int
     {
@@ -128,4 +131,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * Get the value of admin
+     */ 
+    public function getAdmin(): bool
+    {
+        return $this->admin;
+    }
+
+    /**
+     * Set the value of admin
+     *
+     * @return  self
+     */ 
+    public function setAdmin(bool $admin): static
+{
+    $this->admin = $admin;
+    return $this;
+}
+
 }

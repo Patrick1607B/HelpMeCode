@@ -1,5 +1,10 @@
 FROM php:8.2-apache
 
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    git unzip libzip-dev curl \
+    nodejs npm
 # Installation des extensions PHP nécessaires
 RUN apt-get update && apt-get install -y \
     libpng-dev \
